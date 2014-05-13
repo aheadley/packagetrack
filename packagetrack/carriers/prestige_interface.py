@@ -14,14 +14,17 @@ class PrestigeInterface(BaseInterface):
     DEFAULT_CFG = DictConfig({CONFIG_NS:{}})
 
     _API_URL = 'http://www.prestigedelivery.com/TrackingHandler.ashx'
+    
+    _url_template = 'http://www.prestigedelivery.com/trackpackage.aspx?{tracking_number}'
 
     @BaseInterface.require_valid_tracking_number
     def track(self, tracking_number):
         return self._parse_response(self._send_request(tracking_number))
 
     def identify(self, tracking_number):
-        return tracking_number.startswith('PS') and \
-            len(tracking_number) == 10 and \
+        return len(tracking_number) == 10 and \
+            tracking_number[0] == 'P' and \
+            tracking_number[1].isalpha() and \
             tracking_number[2:].isdigit()
 
     def is_delivered(self, tracking_number, tracking_info=None):

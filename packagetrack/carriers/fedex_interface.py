@@ -196,6 +196,9 @@ class FedexInterface(BaseInterface):
         """Validates Express tracking numbers"""
 
         basenum = tracking_number[0:10]
+        
+        if not basenum.isdigit():
+            return False
 
         sums = []
         mult = 1
