@@ -12,7 +12,7 @@ class FedexInterface(BaseInterface):
     SHORT_NAME = 'FedEx'
     LONG_NAME = 'Federal Express'
     CONFIG_NS = SHORT_NAME
-    _url_template = 'https://tools.usps.com/go/TrackConfirmAction.action?tLabels={tracking_number}'
+    _url_template = 'http://www.fedex.com/Tracking?tracknumbers={tracking_number}'
 
     @BaseInterface.require_valid_tracking_number
     def track(self, tracking_number):
