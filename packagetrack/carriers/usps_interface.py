@@ -31,8 +31,7 @@ class USPSInterface(BaseInterface):
         'RF': 'Registered Mail Foreign',
         # 'EJ': 'something?',
     }
-    _url_template = 'http://trkcnfrm1.smi.usps.com/PTSInternetWeb/' \
-        'InterLabelInquiry.do?origTrackNum={tracking_number}'
+    _url_template = 'https://tools.usps.com/go/TrackConfirmAction.action?tLabels={tracking_number}'
     _request_xml = '<TrackFieldRequest USERID="{userid}">' \
         '<TrackID ID="{tracking_number}"/></TrackFieldRequest>'
 
