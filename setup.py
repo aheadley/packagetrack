@@ -10,7 +10,7 @@ except ImportError:
 
 def read(fname):
     content = None
-    with open(os.path.join(os.path.dirname(__file__)), 'r') as f:
+    with open(os.path.join(os.path.dirname(__file__), fname), 'r') as f:
         content = f.read()
     return content
 
