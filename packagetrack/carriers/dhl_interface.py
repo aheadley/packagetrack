@@ -90,6 +90,8 @@ class DHLInterface(BaseInterface):
         return info
 
     def _parse_events(self, events):
+        if not isinstance(events, list):
+            events = [events]
         return (TrackingEvent(
             timestamp=datetime.datetime.strptime(
                 '{Date}T{Time}'.format(**event),

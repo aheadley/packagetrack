@@ -81,5 +81,5 @@ class CanadaPostInterface(BaseInterface):
             info.create_event(
                 timestamp=datetime.datetime.combine(date,time),
                 detail=event['event-description'],
-                location=','.join([event['event-site'], event['event-province']]))
+                location=','.join(s for s in [event['event-site'], event['event-province']] if s))
         return info
