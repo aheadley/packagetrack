@@ -71,7 +71,7 @@ from .carriers import auto_register_carriers
 
 try:
     config = DotFileConfig()
-except ConfigError:
+except (ConfigError, ImportError):
     config = NullConfig()
 
 auto_register_carriers(config)
