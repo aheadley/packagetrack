@@ -1,4 +1,4 @@
-fedex==1.0.14
-pytz==2014.2
+fedex==2.4.0
+pytz
 suds==0.4
 wsgiref==0.1.2
