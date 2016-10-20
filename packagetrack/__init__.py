@@ -63,7 +63,7 @@ __authors__     = ', '.join(__credits__)
 __license__     = 'GPL'
 __maintainer__  = __credits__[2]
 __status__      = 'Development'
-__version__     = '0.4'
+__version__     = '0.4.1'
 
 from .configuration import ConfigError, DotFileConfig, NullConfig
 from .data import Package
