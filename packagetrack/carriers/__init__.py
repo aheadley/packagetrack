@@ -67,6 +67,7 @@ class BaseInterface(object):
     from this class.
     """
     DEFAULT_CFG = NullConfig()
+    DEFAULT_TIMEOUT = 10.0
 
     def __init__(self, config):
         self._config = config

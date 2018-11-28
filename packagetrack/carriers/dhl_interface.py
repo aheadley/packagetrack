@@ -61,7 +61,7 @@ class DHLInterface(BaseInterface):
         req = self._format_request(tracking_number)
         url = self._request_url.format(
             server=self._servers[self._cfg_value('server')])
-        return self._parse_response(requests.post(url, req).text)
+        return self._parse_response(requests.post(url, req, timeout=self.DEFAULT_TIMEOUT).text)
 
     def is_delivered(self, tracking_number, tracking_info=None):
         if tracking_info is None:

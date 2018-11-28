@@ -44,7 +44,7 @@ class USPSInterface(BaseInterface):
         return {
             13: lambda tn: \
                 tn[0:2].isalpha() and tn[2:9].isdigit() and tn[11:13].isalpha(),
-            20: lambda tn: tn.isdigit() and tn.startswith('0'),
+            20: lambda tn: tn.isdigit() and (tn.startswith('0') or tn.startswith('7')),
             22: lambda tn: tn.isdigit(),
             30: lambda tn: tn.isdigit(),
         }.get(len(tracking_number), lambda tn: False)(tracking_number)
@@ -52,7 +52,7 @@ class USPSInterface(BaseInterface):
     def is_delivered(self, tracking_number, tracking_info=None):
         if tracking_info is None:
             tracking_info = self.track(tracking_number)
-        return tracking_info.status.lower() == 'delivered'
+        return tracking_info.status.lower().startswith('delivered')
 
     def _build_request(self, tracking_number):
         return self._request_xml.format(
@@ -115,7 +115,7 @@ class USPSInterface(BaseInterface):
     def _send_request(self, tracking_number):
         url = self._api_urls[self._cfg_value('server')] + \
             self._build_request(tracking_number)
-        return requests.get(url).text
+        return requests.get(url, timeout=self.DEFAULT_TIMEOUT).text
 
     def _getTrackingDate(self, node):
         """Returns a datetime object for the given node's

@@ -75,7 +75,7 @@ class UPSInterface(BaseInterface):
                 self._build_track_request(tracking_number))
 
     def _send_request(self, tracking_number):
-        return requests.post(self._api_url, self._build_request(tracking_number)).text
+        return requests.post(self._api_url, self._build_request(tracking_number), timeout=self.DEFAULT_TIMEOUT).text
 
     def _parse_response(self, raw, tracking_number):
         try:

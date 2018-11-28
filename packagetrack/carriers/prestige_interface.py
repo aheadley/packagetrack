@@ -35,7 +35,7 @@ class PrestigeInterface(BaseInterface):
     def _send_request(self, tracking_number):
         try:
             resp = requests.get(self._API_URL,
-                params={'trackingNumbers': tracking_number})
+                params={'trackingNumbers': tracking_number}, timeout=self.DEFAULT_TIMEOUT)
         except requests.exceptions.RequestException as err:
             raise TrackingNetworkFailure(err)
         return resp.content

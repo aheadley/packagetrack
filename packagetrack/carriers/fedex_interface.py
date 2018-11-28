@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 
 from fedex.config import FedexConfig
 from fedex.base_service import FedexError
@@ -53,11 +53,11 @@ class FedexInterface(BaseInterface):
     def is_delivered(self, tracking_number, tracking_info=None):
         if tracking_info is None:
             tracking_info = self.track(tracking_number)
-        return tracking_info.status.lower() == 'delivered'
+        return tracking_info.status.lower().startswith('delivered')
 
     def _parse_response(self, rsp, tracking_number):
         """Parse the track response and return a TrackingInfo object"""
-
+        
         # test status code, return actual delivery time if package
         # was delivered, otherwise estimated target time
         if rsp.StatusCode == 'DL':
@@ -98,10 +98,12 @@ class FedexInterface(BaseInterface):
         )
 
         # now add the events
-        for e in rsp.Events:
+        for ms_i, e in enumerate(rsp.Events):
             trackinfo.create_event(
                 location = self._getTrackingLocation(e),
-                timestamp= e.Timestamp,
+                # Fedex API can return events with identical timestamps so we add milliseconds to
+                # preserve their order
+                timestamp= e.Timestamp + timedelta(milliseconds=len(rsp.Events) - ms_i),
                 detail   = e.EventDescription,
             )
 
@@ -162,12 +164,15 @@ class FedexInterface(BaseInterface):
 
         eventotal = 0
         oddtotal = 0
-        for i in range(1,15):
-            if i % 2:
-                eventotal += int(rev[i])
-            else:
-                oddtotal += int(rev[i])
-
+        try:
+            for i in range(1,15):
+                if i % 2:
+                    eventotal += int(rev[i])
+                else:
+                    oddtotal += int(rev[i])
+        except ValueError:
+            return False
+    
         check = 10 - ((eventotal * 3 + oddtotal) % 10)
 
         # compare with the checksum digit, which is the last digit
