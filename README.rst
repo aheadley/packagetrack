@@ -13,6 +13,14 @@ This library tracks packages.
 
 *Note* Use at your own risk!
 
+Requirements
+============
+setuptools, suds, pytz, pip, fedex module
+
+For debian or ubuntu, do::
+    $ apt-get install python-setuptools python-suds python-tz python-pip
+    $ pip install fedex
+
 Installation
 ============
 
