@@ -63,7 +63,7 @@ __authors__     = ', '.join(__credits__)
 __license__     = 'GPL'
 __maintainer__  = __credits__[2]
 __status__      = 'Development'
-__version__     = '0.4'
+__version__     = '0.4.2'
 
 from .configuration import ConfigError, DotFileConfig, NullConfig
 from .data import Package
@@ -71,7 +71,7 @@ from .carriers import auto_register_carriers
 
 try:
     config = DotFileConfig()
-except ConfigError:
+except (ConfigError, ImportError):
     config = NullConfig()
 
 auto_register_carriers(config)
