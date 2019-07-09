@@ -14,11 +14,9 @@ def read(fname):
         content = f.read()
     return content
 
-import packagetrack
-
 setup(
     name='packagetrack',
-    version=packagetrack.__version__,
+    version='0.4.2',
     author="Scott Torborg",
     author_email="storborg@mit.edu",
     license="GPL",
